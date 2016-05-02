@@ -46,7 +46,59 @@ print $_ for @plan;
 
 sub whitelist {
     return qw(
-WHITE
-BLACK
+        BLACK
+        BLUEBERRY_CREAM
+        BLUSH
+        BRIGHT_GREEN
+        BROWN
+        BUBBLEGUM
+        BUTTERSCOTCH
+        CHEDDER
+        CRANAPPLE
+        CREAM
+        CYAN
+        DARK_BLUE
+        DARK_GREEN
+        DARK_GREY
+        GLOW_GREEN
+        GOLD
+        GREY
+        HOT_CORAL
+        KIWI_LIME
+        LIGHT_BLUE
+        LIGHT_BROWN
+        LIGHT_GREEN
+        LIGHT_PINK
+        MAGENTA
+        NEON_GREEN
+        NEON_ORANGE
+        NEON_PINK
+        NEON_YELLOW
+        ORANGE
+        PARROT_GREEN
+        PASTEL_BLUE
+        PASTEL_GREEN
+        PASTEL_LAVENDER
+        PASTEL_YELLOW
+        PEACH
+        PEARL_CORAL
+        PEARL_GREEN
+        PEARL_LIGHT_BLUE
+        PEARL_LIGHT_PINK
+        PEARL_YELLOW
+        PERIWINKLE_BLUE
+        PINK
+        PLUM
+        PRICKLY_PEAR
+        PURPLE
+        RASPBERRY
+        RED
+        RUST
+        SAND
+        SILVER
+        TAN
+        TOOTHPASTE
+        WHITE
+        YELLOW
     );
 }
