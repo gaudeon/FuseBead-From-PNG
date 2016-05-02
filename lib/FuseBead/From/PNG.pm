@@ -465,7 +465,7 @@ sub _plan_info {
 
 =head1 NAME
 
-FuseBead::From::PNG - Convert PNGs into plans to build a two dimensional bead replica.
+FuseBead::From::PNG - Convert PNGs into plans to build a two dimensional fuse bead replica.
 
 =head1 SYNOPSIS
 
@@ -477,9 +477,7 @@ FuseBead::From::PNG - Convert PNGs into plans to build a two dimensional bead re
 
 =head1 DESCRIPTION
 
-Convert a PNG into a block list and plans to build a two dimensional replica of the PNG. The plans are built with bead
- knobs pointed vertically so the picture will look like a flat surface to the viewer. Meaning the only dimension
- of the bead being determined is the length. Depth and height are all the same for all beads.
+Convert a PNG into a block list and plans to build a fuse bead replica of the PNG.
 
 $hash->{'filename'} = $args{'filename'};
 
