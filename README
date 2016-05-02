@@ -20,11 +20,6 @@ DESCRIPTION
 
         $hash->{'unit_size'} = $args{'unit_size'} || 1;
 
-        # Bead depth and height defaults
-        $hash->{'bead_depth'} = 1;
-
-        $hash->{'bead_height'} = 1;
-
         # White list default
         $hash->{'whitelist'} = ($args{'whitelist'} && ref($args{'whitelist'}) eq 'ARRAY' && scalar(@{$args{'whitelist'}}) > 0) ? $args{'whitelist'} : undef;
 
@@ -43,12 +38,6 @@ USAGE
 
         unit_size - Optional. The size of pixels squared to determine a single unit of a bead. Defaults to 1.
             e.g. unit_size => 2 # pixelated colors are 2x2 in size
-
-        bead_depth - Optional. The depth of all generated beads. Defaults to 1.
-            e.g. bead_depth => 2 # final depth of all beads are 2. So 2 x length x height
-
-        bead_height - Optional. The height of all generated beads. Defaults to 1.
-            e.g. bead_height => 2 # final height of all beads are 2. So depth x length x 2
 
         whitelist - Optional. Array ref of colors, dimensions or color and dimensions that are allowed in the final plan output.
             e.g. whitelist => [ 'BLACK', 'WHITE', '1x1x1', '1x2x1', '1x4x1', 'BLACK_1x6x1' ]
