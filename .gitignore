@@ -10,6 +10,7 @@ Build.bat
 /Makefile
 /Makefile.old
 /MANIFEST.bak
+/README.bak
 /META.yml
 /META.json
 /MYMETA.*
@@ -17,4 +18,6 @@ nytprof.out
 /pm_to_blib
 *.o
 *.bs
-/_eumm/
+*.swp
+*.tar.gz
+.DS_Store
