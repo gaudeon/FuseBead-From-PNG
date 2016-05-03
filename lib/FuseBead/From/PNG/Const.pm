@@ -346,10 +346,11 @@ our %EXPORT_TAGS = ('all' => \@EXPORT_OK);
 
 # Bead Dimensions Info
 use constant {
-    BEAD_DIAMETER      => 5, # in millimeters
-    MILLIMETER_TO_INCH => 0.0393701, # just so we can provide a conversion option
-    METRIC_SUFFIX      => "mm",
-    IMPERIAL_SUFFIX    => "in.",
+    BEAD_DIAMETER        => 5, # in millimeters
+    MILLIMETER_TO_INCH   => 0.0393701,   # 1mm == 0.0393701 in.
+    MILLIMETER_TO_PIXEL  => 3.779527559, # 1mm == 3.779527559 pixels
+    METRIC_SUFFIX        => "mm",
+    IMPERIAL_SUFFIX      => "in.",
 };
 
 # List of basic colors

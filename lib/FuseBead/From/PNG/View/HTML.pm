@@ -20,7 +20,10 @@ sub print {
     my @styles;
     my @bead_list;
 
-    push @styles, '.picture td { height: 1em; }';
+    my $bead_diameter = FuseBead::From::PNG::Bead->new({ color => [ FuseBead::From::PNG::Const->BEAD_COLORS ]->[0] })->diameter;
+    my $pixel_size    = $bead_diameter * FuseBead::From::PNG::Const->MILLIMETER_TO_PIXEL;
+
+    push @styles, ".picture td { height: ${pixel_size}px; width: ${pixel_size}px; }";
 
     my $bead_total = 0;
     for my $color (sort { $a->{'color'} cmp $b->{'color'} } values %{$args{'beads'}}) {

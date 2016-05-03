@@ -47,6 +47,11 @@ sub should_return_properly_formatted_JSON {
 
     my $id = "${color}";
 
+    my $plan_length = $width / $unit_size * FuseBead::From::PNG::Const->BEAD_DIAMETER;
+    my $plan_height = $height / $unit_size * FuseBead::From::PNG::Const->BEAD_DIAMETER;
+    my $plan_length_in = $plan_length * FuseBead::From::PNG::Const->MILLIMETER_TO_INCH;
+    my $plan_height_in = $plan_height * FuseBead::From::PNG::Const->MILLIMETER_TO_INCH;
+
     my $expected = {
         beads => {
             $id   => {
@@ -70,9 +75,13 @@ sub should_return_properly_formatted_JSON {
         ],
         info => {
             metric => {
-                length => $width / $unit_size * FuseBead::From::PNG::Const->BEAD_DIAMETER,
-                height => $height / $unit_size * FuseBead::From::PNG::Const->BEAD_DIAMETER,
-            }
+                length => $plan_length,
+                height => $plan_height,
+            },
+            imperial => {
+                length => $plan_length_in,
+                height => $plan_height_in,
+            },
         }
     };
 

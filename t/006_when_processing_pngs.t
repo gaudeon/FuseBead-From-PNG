@@ -268,7 +268,7 @@ sub should_return_information_about_the_generated_plan {
 
     my $png = Test::PNG->new({ width => $width, height => $height, unit_size => $unit_size });
 
-    my $object = FuseBead::From::PNG->new({ filename => $png->filename, unit_size => $unit_size, metric => 1 });
+    my $object = FuseBead::From::PNG->new({ filename => $png->filename, unit_size => $unit_size });
 
     my $result = $object->process();
 
@@ -283,12 +283,6 @@ sub should_return_information_about_the_generated_plan {
         },
     };
 
-    is_deeply($result->{'info'}, $expected_in_millimeters, "Information about plan (in millimeters) correct");
-
-    $object = FuseBead::From::PNG->new({ filename => $png->filename, unit_size => $unit_size, imperial => 1 });
-
-    $result = $object->process();
-
     $plan_length = FuseBead::From::PNG::Const->BEAD_DIAMETER * ($width / $unit_size) * FuseBead::From::PNG::Const->MILLIMETER_TO_INCH;
 
     $plan_height = FuseBead::From::PNG::Const->BEAD_DIAMETER * ($height / $unit_size) * FuseBead::From::PNG::Const->MILLIMETER_TO_INCH;
@@ -300,17 +294,11 @@ sub should_return_information_about_the_generated_plan {
         }
     };
 
-    is_deeply($result->{'info'}, $expected_in_inches, "Information about plan (in inches) is correct");
-
-    $object = FuseBead::From::PNG->new({ filename => $png->filename, unit_size => $unit_size, metric => 1, imperial => 1 });
-
-    $result = $object->process();
-
     my $expected_in_both = { %$expected_in_millimeters, %$expected_in_inches };
 
     is_deeply($result->{'info'}, $expected_in_both, "Information about plan, in both imperial and metric, is correct");
 
-    $tests += 3;
+    $tests += 1;
 }
 
 # --- Utility subs ---

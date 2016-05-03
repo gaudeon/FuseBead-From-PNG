@@ -35,13 +35,6 @@ sub new {
     # Black list default
     $hash->{'blacklist'} = ($args{'blacklist'} && ref($args{'blacklist'}) eq 'ARRAY' && scalar(@{$args{'blacklist'}}) > 0) ? $args{'blacklist'} : undef;
 
-    # Dimension measurement formats
-    $hash->{'metric'} = $args{'metric'} || 0;
-
-    $hash->{'imperial'} = $args{'imperial'} || 0;
-
-    $hash->{'metric'} = 1 if ! $hash->{'metric'} && ! $hash->{'imperial'};
-
     my $self = bless ($hash, ref ($class) || $class);
 
     return $self;
@@ -450,12 +443,10 @@ sub _plan_info {
     my %info;
 
     for my $type (qw/metric imperial/) {
-        if ($self->{$type}) {
-            $info{$type} = {
-                length => $self->bead_row_length * $self->bead_dimensions->{$type}->{'bead_diameter'},
-                height => $self->bead_col_height * $self->bead_dimensions->{$type}->{'bead_diameter'},
-            };
-        }
+        $info{$type} = {
+            length => $self->bead_row_length * $self->bead_dimensions->{$type}->{'bead_diameter'},
+            height => $self->bead_col_height * $self->bead_dimensions->{$type}->{'bead_diameter'},
+        };
     }
 
     return \%info;

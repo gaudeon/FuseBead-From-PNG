@@ -54,10 +54,15 @@ sub should_return_properly_formatted_HTML {
 
     my $plan_length = $width / $unit_size * FuseBead::From::PNG::Const->BEAD_DIAMETER;
     my $plan_height = $height / $unit_size * FuseBead::From::PNG::Const->BEAD_DIAMETER;
+    my $plan_length_in = $plan_length * FuseBead::From::PNG::Const->MILLIMETER_TO_INCH;
+    my $plan_height_in = $plan_height * FuseBead::From::PNG::Const->MILLIMETER_TO_INCH;
+
+    my $bead_diameter = FuseBead::From::PNG::Bead->new({ color => $color })->diameter;
+    my $pixel_length  = $bead_diameter * FuseBead::From::PNG::Const->MILLIMETER_TO_PIXEL;
 
 my $expected = <<"HTML";
 <style>
-.picture td { height: 1em; }
+.picture td { height: ${pixel_length}px; width: ${pixel_length}px; }
 .$class { background: #$color_info->{'hex_color'}; }
 </style>
 
@@ -66,6 +71,10 @@ my $expected = <<"HTML";
 <table><tbody>
 <tr><td>Length:</td><td>$plan_length mm</td></tr>
 <tr><td>Height:</td><td>$plan_height mm</td></tr>
+</tbody></table>
+<table><tbody>
+<tr><td>Length:</td><td>$plan_length_in in.</td></tr>
+<tr><td>Height:</td><td>$plan_height_in in.</td></tr>
 </tbody></table>
 </section>
 
