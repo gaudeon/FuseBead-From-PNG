@@ -9,7 +9,6 @@ LICENSE
 Makefile.PL
 MANIFEST
 README
-README.bak
 t/001_load.t
 t/002_when_documenting_modules.t
 t/003_when_loading_bead_information.t
