@@ -367,55 +367,21 @@ sub _bead_list {
     my $bead_ref     = -1; # artificial auto-incremented id
     my @beads;
 
-    for(my $y = 0; $y < ($unit_count / $row_width); $y++) {
+    for (my $y = 0; $y < ($unit_count / $row_width); $y++) {
         my @row = splice @units, 0, $row_width;
         my $x   = 0;
 
-        my $process_color_sample = sub {
-            my ($color, $length) = @_;
-
-            return if $length <= 0;
-
-            # Now make sure we find beads we are allowed to use
-            FIND_BEADS: {
-                for( 1 .. $length ) { # Only need to loop at least the number of times equal to the length of color found
-                    if( $color ) {
-                        push @beads, FuseBead::From::PNG::Bead->new(
-                            color  => $color,
-                            meta   => {
-                                x   => $x,
-                                y   => $y,
-                                ref => ++$bead_ref,
-                            },
-                        );
-                    }
-
-                    $length--;
-                    $x++; # x on the 'grid' for next bead is at current x plus length of current bead
-
-                    last FIND_BEADS if $length <= 0; # No need to push more beads, we found them all
-                }
-            }
-
-            die "No valid beads found for remaining units of color" if $length > 0; # Catch if we have gremlins in our whitelist/blacklist
-        };
-
-        # Run through rows and process colors
-        my $next_bead_color = '';
-        my $next_bead_length = 0;
-
         for my $color( @row ) {
-            if( $color ne $next_bead_color ) {
-                $process_color_sample->($next_bead_color, $next_bead_length);
-
-                $next_bead_color = $color;
-                $next_bead_length = 0;
-            }
-
-            $next_bead_length++;
+            push @beads, FuseBead::From::PNG::Bead->new(
+                color  => $color,
+                meta   => {
+                    x   => $x,
+                    y   => $y,
+                    ref => ++$bead_ref,
+                },
+            );
+            $x++;
         }
-
-        $process_color_sample->($next_bead_color, $next_bead_length); # Process last color found
     }
 
     return @beads;
