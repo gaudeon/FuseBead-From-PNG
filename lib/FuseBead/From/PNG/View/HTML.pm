@@ -21,9 +21,11 @@ sub print {
     my @bead_list;
 
     my $bead_diameter = FuseBead::From::PNG::Bead->new({ color => [ FuseBead::From::PNG::Const->BEAD_COLORS ]->[0] })->diameter;
-    my $pixel_size    = $bead_diameter * FuseBead::From::PNG::Const->MILLIMETER_TO_PIXEL;
+    my $border_width  = 1;
+    my $pixel_size    = $bead_diameter * FuseBead::From::PNG::Const->MILLIMETER_TO_PIXEL - $border_width * 2;
 
-    push @styles, ".picture td { height: ${pixel_size}px; width: ${pixel_size}px; }";
+    push @styles, ".picture { border-collapse: collapse; page-break-before: always; }";
+    push @styles, ".picture td { height: ${pixel_size}px; width: ${pixel_size}px; border: solid black ${border_width}px; padding: 0; }";
 
     my $bead_total = 0;
     for my $color (sort { $a->{'color'} cmp $b->{'color'} } values %{$args{'beads'}}) {
