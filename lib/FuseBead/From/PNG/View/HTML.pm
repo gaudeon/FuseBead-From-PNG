@@ -73,7 +73,7 @@ sub print {
     # Picture
     $html .= qq{<section class="bead_display">\n};
     $html .= qq{<h2>Picture</h2>\n};
-    $html .= qq{<table class="picture" border="1"><tbody>\n};
+    $html .= qq{<table class="picture"><tbody>\n};
     $html .= qq{<tr>}; # first <tr>
     my $y = 0;
     for my $color (@{$args{'plan'}}) {
