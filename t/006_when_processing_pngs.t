@@ -23,6 +23,8 @@ my $tests = 0;
 
 should_return_empty_list_with_no_params();
 
+should_mirror_image_by_default();
+
 should_return_the_right_count_of_beads_of_colors();
 
 should_return_bead_colors_approximated_from_a_list_containing_beads_of_colors();
@@ -49,6 +51,18 @@ sub should_return_empty_list_with_no_params {
     my $result = $object->process();
 
     is_deeply($result, { beads => {}, plan => [] }, "Empty list returned");
+
+    $tests++;
+}
+
+sub should_mirror_image_by_default {
+    note("---- ". current_sub(). " ----\n");
+
+    my $object = FuseBead::From::PNG->new({});
+
+    my $result = $object->mirror();
+
+    cmp_ok($result, '==', 1, "Image will be mirrored when generated as plans by default");
 
     $tests++;
 }

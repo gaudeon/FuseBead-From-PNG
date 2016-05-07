@@ -11,7 +11,20 @@ SYNOPSIS
 
 DESCRIPTION
     Convert a PNG into a block list and plans to build a fuse bead replica
-    of the PNG.
+    of the PNG. This is for projects that use fuse bead such as perler or
+    hama.
+
+    The RGB values where obtained from Bead List with RGB Values
+    (https://docs.google.com/spreadsheets/d/1f988o68HDvk335xXllJD16vxLBuRcmm
+    3vg6U9lVaYpA/edit#gid=0). Which was posted in the bead color subreddit
+    beadsprites (https://www.reddit.com/r/beadsprites) under this post Bead
+    List with RGB Values
+    (https://www.reddit.com/r/beadsprites/comments/291495/bead_list_with_rgb
+    _values/).
+
+    The generate_instructions.pl script under bin/ has been setup to
+    optimally be used the 22k bucket of beads from Perler.
+    (http://www.perler.com/22000-beads-multi-mix-_17000/17000.html)
 
     $hash->{'filename'} = $args{'filename'};
 
@@ -132,6 +145,17 @@ USAGE
      Returns   : Hashref containing information about particular bead beads found to be needed based on the provided PNG.
                  Also included is the build order for those beads.
      Argument  : view => 'a view' - optionally format the return data. options include: JSON and HTML
+     Throws    :
+
+     Comment   :
+     See Also  :
+
+  mirror
+     Usage     : ->mirror()
+     Purpose   : Getter / Setter for the mirror option. Set to 1 (true) by default. This option will mirror the image when displaying it as plans. The reason is then the mirror of the image is what is placed on the peg board so that side can be ironed and, when turned over, the image is represented in it's proper orientation.
+
+     Returns   : Either 1 or 0
+     Argument  : a true or false value that will set whether the plans are mirrored to the image or not
      Throws    :
 
      Comment   :

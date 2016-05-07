@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    $FuseBead::From::PNG::VERSION = '0.01';
+    $FuseBead::From::PNG::VERSION = '0.02';
 }
 
 use parent qw(FuseBead::From::PNG::View);
@@ -26,6 +26,7 @@ sub print {
 
     push @styles, ".picture { border-collapse: collapse; page-break-before: always; }";
     push @styles, ".picture td { height: ${pixel_size}px; width: ${pixel_size}px; border: solid black ${border_width}px; padding: 0; }";
+    push @styles, ".bead_display { margin-top: 1em; }";
 
     my $bead_total = 0;
     for my $color (sort { $a->{'color'} cmp $b->{'color'} } values %{$args{'beads'}}) {
@@ -72,7 +73,6 @@ sub print {
 
     # Picture
     $html .= qq{<section class="bead_display">\n};
-    $html .= qq{<h2>Picture</h2>\n};
     $html .= qq{<table class="picture"><tbody>\n};
     $html .= qq{<tr>}; # first <tr>
     my $y = 0;

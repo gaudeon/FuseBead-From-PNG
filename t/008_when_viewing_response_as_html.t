@@ -58,11 +58,14 @@ sub should_return_properly_formatted_HTML {
     my $plan_height_in = $plan_height * FuseBead::From::PNG::Const->MILLIMETER_TO_INCH;
 
     my $bead_diameter = FuseBead::From::PNG::Bead->new({ color => $color })->diameter;
-    my $pixel_length  = $bead_diameter * FuseBead::From::PNG::Const->MILLIMETER_TO_PIXEL;
+    my $border_width  = 1;
+    my $pixel_length  = $bead_diameter * FuseBead::From::PNG::Const->MILLIMETER_TO_PIXEL - $border_width * 2;
 
 my $expected = <<"HTML";
 <style>
-.picture td { height: ${pixel_length}px; width: ${pixel_length}px; }
+.picture { border-collapse: collapse; page-break-before: always; }
+.picture td { height: ${pixel_length}px; width: ${pixel_length}px; border: solid black ${border_width}px; padding: 0; }
+.bead_display { margin-top: 1em; }
 .$class { background: #$color_info->{'hex_color'}; }
 </style>
 
@@ -87,8 +90,7 @@ my $expected = <<"HTML";
 </section>
 
 <section class="bead_display">
-<h2>Picture</h2>
-<table class="picture" border="1"><tbody>
+<table class="picture"><tbody>
 <tr><td title="$color_info->{'name'}" class="$class"></td></tr>
 </tbody></table>
 </section>

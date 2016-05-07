@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    $FuseBead::From::PNG::VERSION = '0.01';
+    $FuseBead::From::PNG::VERSION = '0.02';
 }
 
 use parent qw(FuseBead::From::PNG::View);

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    $FuseBead::From::PNG::Bead::VERSION = '0.01';
+    $FuseBead::From::PNG::Bead::VERSION = '0.02';
 }
 
 use FuseBead::From::PNG::Const qw(:all);

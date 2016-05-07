@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    $FuseBead::From::PNG::View::VERSION = '0.01';
+    $FuseBead::From::PNG::View::VERSION = '0.02';
 }
 
 use Data::Debug;

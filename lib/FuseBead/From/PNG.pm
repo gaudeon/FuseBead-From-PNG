@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    $FuseBead::From::PNG::VERSION = '0.01';
+    $FuseBead::From::PNG::VERSION = '0.02';
 }
 
 use Image::PNG::Libpng qw(:all);
@@ -28,6 +28,12 @@ sub new {
     $hash->{'filename'} = $args{'filename'};
 
     $hash->{'unit_size'} = $args{'unit_size'} || 1;
+
+    # mirror plans compared to image by default
+    $hash->{'mirror'} = defined $args{'mirror'} ? $args{'mirror'}
+                                                    ? 1
+                                                    : 0
+                                                : 1;
 
     # White list default
     $hash->{'whitelist'} = ($args{'whitelist'} && ref($args{'whitelist'}) eq 'ARRAY' && scalar(@{$args{'whitelist'}}) > 0) ? $args{'whitelist'} : undef;
@@ -146,7 +152,7 @@ sub process {
         plan   => [],
     };
 
-    if($self->{'filename'}) {
+    if ($self->{'filename'}) {
         my @blocks = $self->_png_blocks_of_color;
 
         my @units = $self->_approximate_bead_colors( blocks => \@blocks );
@@ -156,7 +162,7 @@ sub process {
         $tally->{'plan'} = [ map { $_->flatten } @beads ];
 
         my %list;
-        for my $bead(@beads) {
+        for my $bead (@beads) {
             if(! exists $list{ $bead->identifier }) {
                 $list{ $bead->identifier } = $bead->flatten;
 
@@ -174,7 +180,7 @@ sub process {
         $tally->{'info'} = $self->_plan_info();
     }
 
-    if($args{'view'}) {
+    if ($args{'view'}) {
         my $view   = $args{'view'};
         my $module = "FuseBead::From::PNG::View::$view";
 
@@ -191,6 +197,17 @@ sub process {
     return $tally;
 }
 
+sub mirror {
+    my $self = shift;
+    my $arg  = shift;
+
+    if (defined $arg) {
+        $self->{'mirror'} = $arg ? 1 : 0;
+    }
+
+    return $self->{'mirror'};
+}
+
 sub whitelist { shift->{'whitelist'} }
 
 sub has_whitelist {
@@ -198,7 +215,7 @@ sub has_whitelist {
     my $allowed = shift; # arrayref listing filters we can use
 
     my $found = 0;
-    for my $filter(values $self->_list_filters($allowed)) {
+    for my $filter ( values %{ $self->_list_filters($allowed) } ) {
         $found += scalar( grep { /$filter/ } @{ $self->whitelist || [] } );
     }
 
@@ -212,7 +229,7 @@ sub is_whitelisted {
 
     return 1 if ! $self->has_whitelist($allowed); # return true if there is no whitelist
 
-    for my $entry( @{ $self->whitelist || [] } ) {
+    for my $entry ( @{ $self->whitelist || [] } ) {
         for my $filter( values %{ $self->_list_filters($allowed) } ) {
             next unless $entry =~ /$filter/; # if there is at least a letter at the beginning then this entry has a color we can check
 
@@ -234,7 +251,7 @@ sub has_blacklist {
 
     my $found = 0;
 
-    for my $filter(values $self->_list_filters($allowed)) {
+    for my $filter ( values %{ $self->_list_filters($allowed) } ) {
         $found += scalar( grep { /$filter/ } @{ $self->blacklist || [] } );
     }
 
@@ -248,7 +265,7 @@ sub is_blacklisted {
 
     return 0 if ! $self->has_blacklist($allowed); # return false if there is no blacklist
 
-    for my $entry( @{ $self->blacklist || [] } ) {
+    for my $entry ( @{ $self->blacklist || [] } ) {
         for my $filter( values %{ $self->_list_filters($allowed) } ) {
             next unless $entry =~ /$filter/; # if there is at least a letter at the beginning then this entry has a color we can check
 
@@ -273,7 +290,7 @@ sub _png_blocks_of_color {
 
     my $y = -1;
 
-    for my $pixel_row( @{$self->png->get_rows} ) {
+    for my $pixel_row ( @{$self->png->get_rows} ) {
         $y++;
 
         next unless ($y % $self->{'unit_size'}) == 0;
@@ -284,7 +301,7 @@ sub _png_blocks_of_color {
 
         my $row_width = ( scalar(@values) / $pixel_bytecount ) / $self->{'unit_size'};
 
-        for(my $col = 0; $col < $row_width; $col++) {
+        for (my $col = 0; $col < $row_width; $col++) {
             my ($r, $g, $b) = (
                 $values[ ($self->{'unit_size'} * $pixel_bytecount * $col)     ],
                 $values[ ($self->{'unit_size'} * $pixel_bytecount * $col) + 1 ],
@@ -340,7 +357,7 @@ sub _approximate_bead_colors {
 
     my @colors;
 
-    for my $block(@{ $args{'blocks'} }) {
+    for my $block (@{ $args{'blocks'} }) {
         push @colors, $self->_find_bead_color_fast( $block->{'r'}, $block->{'g'}, $block->{'b'} );
     }
 
@@ -371,7 +388,10 @@ sub _bead_list {
         my @row = splice @units, 0, $row_width;
         my $x   = 0;
 
-        for my $color( @row ) {
+        # mirror each row as it is set in the plan if we are mirroring the output
+        @row = reverse @row if $self->mirror;
+
+        for my $color ( @row ) {
             push @beads, FuseBead::From::PNG::Bead->new(
                 color  => $color,
                 meta   => {
@@ -434,7 +454,12 @@ FuseBead::From::PNG - Convert PNGs into plans to build a two dimensional fuse be
 
 =head1 DESCRIPTION
 
-Convert a PNG into a block list and plans to build a fuse bead replica of the PNG.
+Convert a PNG into a block list and plans to build a fuse bead replica of the PNG. This is for projects that use fuse bead such as perler or hama.
+
+The RGB values where obtained from Bead List with RGB Values (https://docs.google.com/spreadsheets/d/1f988o68HDvk335xXllJD16vxLBuRcmm3vg6U9lVaYpA/edit#gid=0).
+Which was posted in the bead color subreddit beadsprites (https://www.reddit.com/r/beadsprites) under this post Bead List with RGB Values (https://www.reddit.com/r/beadsprites/comments/291495/bead_list_with_rgb_values/).
+
+The generate_instructions.pl script under bin/ has been setup to optimally be used the 22k bucket of beads from Perler. (http://www.perler.com/22000-beads-multi-mix-_17000/17000.html)
 
 $hash->{'filename'} = $args{'filename'};
 
@@ -565,6 +590,18 @@ $hash->{'filename'} = $args{'filename'};
  Returns   : Hashref containing information about particular bead beads found to be needed based on the provided PNG.
              Also included is the build order for those beads.
  Argument  : view => 'a view' - optionally format the return data. options include: JSON and HTML
+ Throws    :
+
+ Comment   :
+ See Also  :
+
+=head2 mirror
+
+ Usage     : ->mirror()
+ Purpose   : Getter / Setter for the mirror option. Set to 1 (true) by default. This option will mirror the image when displaying it as plans. The reason is then the mirror of the image is what is placed on the peg board so that side can be ironed and, when turned over, the image is represented in it's proper orientation.
+
+ Returns   : Either 1 or 0
+ Argument  : a true or false value that will set whether the plans are mirrored to the image or not
  Throws    :
 
  Comment   :

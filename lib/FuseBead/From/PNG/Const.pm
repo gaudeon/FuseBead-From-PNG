@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    $FuseBead::From::PNG::Const::VERSION = '0.01';
+    $FuseBead::From::PNG::Const::VERSION = '0.02';
 }
 
 require Exporter;
