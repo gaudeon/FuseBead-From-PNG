@@ -9,7 +9,7 @@ use Data::Debug;
 
 my $file = shift @ARGV || die "PNG required";
 
-my $png = FuseBead::From::PNG->new({ filename => $file, whitelist => [ whitelist() ], imperial => 1 });
+my $png = FuseBead::From::PNG->new({ filename => $file, whitelist => [ whitelist() ], mirror => 1 });
 
 # HTML
 my $result = $png->process(view => HTML);
