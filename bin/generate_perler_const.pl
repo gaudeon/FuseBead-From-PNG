@@ -53,6 +53,7 @@ Pearl Light Blue    P101    122 174 162
 Pearl Green p102    132 183 145
 Pearl Yellow    P103    202 192 51
 Pearl Light Pink    P104    215 168 162
+Turquoise P1050 193 151 174
 Silver  P105    119 123 129
 Light Green P11 86  186 159
 Brown   P12 81  57  49
@@ -61,6 +62,7 @@ Black   P18 46  47  50
 Rust    P20 140 55  44
 Light Brown P21 129 93  52
 Tan P35 188 147 113
+Evergreen P179    53  83  67
 Magenta P38 242 42  123
 Neon Yellow P47 220 224 2
 Neon Orange P48 255 119 0
@@ -83,6 +85,8 @@ Glow Green  P75 190 198 150
 Light Pink  P79 246 179 221
 Bright Green    P80 79  173 66
 Peach   P80 238 186 178
+Light Grey P81 177 181 178
+Lavender P82 173 152 212
 Pink    P83 228 72  146
 Gold    P85 187 118 52
 Raspberry   P88 165 48  97
