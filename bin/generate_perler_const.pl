@@ -1,42 +1,243 @@
 #!/usr/bin/env perl
 
-my %colors;
-while(<DATA>) {
-    chomp;
-    my @parts = split /\s+/;
+use strict;
+use warnings;
 
-    my ($clr, $cd, $r, $g, $b);
+use Getopt::Long;
+use Pod::Usage;
+use Data::Debug;
 
-    while(my $part = shift @parts) {
-        last if $part =~ /p\d+/i;
-        $clr = join(' ', $clr, $part);
+# options
+my $help;
+my $pm;
+GetOptions ("help" => \$help, "pm" => \$pm)
+    or die("Error in command line arguments\n");
+
+usage() and exit if $help;
+
+print_colors( get_colors() );
+
+sub get_colors {
+    my %colors;
+    while(<DATA>) {
+        chomp;
+        my @parts = split /\s+/;
+
+        my ($clr, $cd, $r, $g, $b) = ('', '', 0, 0, 0);;
+
+        my $part;
+        while($part = shift @parts) {
+            last if $part =~ /p\d+/i;
+            $clr = join(' ', $clr, $part);
+        }
+
+        unshift @parts, $part;
+
+        $clr =~ s/^\s//;
+
+        ($cd, $r, $g, $b) = @parts;
+
+        my $id = uc($clr);
+        $id =~ s/ /_/g;
+
+        $colors{$id} = {
+            id => $id,
+            name => $clr,
+            red => $r,
+            green => $g,
+            blue => $b,
+            hex  => uc(sprintf('%02x%02x%02x',$r,$g,$b)),
+        };
     }
 
-    unshift @parts, $part;
-
-    $clr =~ s/^\s//;
-
-    ($cd, $r, $g, $b) = @parts;
-
-    my $id = uc($clr);
-    $id =~ s/ /_/g;
-
-    $colors{$id} = {
-        id => $id,
-        name => $clr,
-        red => $r,
-        green => $g,
-        blue => $b,
-        hex  => uc(sprintf('%02x%02x%02x',$r,$g,$b)),
-    };
+    return %colors;
 }
 
-print "\n\n-- Exports\n";
-print "${_}_NAME\n${_}_HEX_COLOR\n${_}_RGB_COLOR_RED\n${_}_RGB_COLOR_GREEN\n${_}_RGB_COLOR_BLUE\n\n" for sort keys %colors;
-print "-- Bead Colors\n";
-print $_, "\n" for sort keys %colors;
-print "\n\n-- Color Const\n";
-print "${_}_NAME => '${colors{$_}{name}}',\n${_}_HEX_COLOR => '${colors{$_}{hex}}',\n${_}_RGB_COLOR_RED => ${colors{$_}{red}},\n${_}_RGB_COLOR_GREEN => ${colors{$_}{green}},\n${_}_RGB_COLOR_BLUE => ${colors{$_}{blue}},\n\n" for sort keys %colors;
+sub print_colors {
+    my %colors = @_;
+
+    my $exports = '';
+
+    $exports .= "    ${_}_NAME\n"
+              . "    ${_}_HEX_COLOR\n"
+              . "    ${_}_RGB_COLOR_RED\n"
+              . "    ${_}_RGB_COLOR_GREEN\n"
+              . "    ${_}_RGB_COLOR_BLUE\n\n" for sort keys %colors;
+
+    my $color_list = '';
+    $color_list .= "    ${_}\n" for sort keys %colors;
+
+
+    my $color_const = '';
+    $color_const .= "    ${_}_NAME            => '${colors{$_}{name}}',\n"
+                  . "    ${_}_HEX_COLOR       => '${colors{$_}{hex}}',\n"
+                  . "    ${_}_RGB_COLOR_RED   => ${colors{$_}{red}},\n"
+                  . "    ${_}_RGB_COLOR_GREEN => ${colors{$_}{green}},\n"
+                  . "    ${_}_RGB_COLOR_BLUE  => ${colors{$_}{blue}},\n\n" for sort keys %colors;
+
+    if ($pm) {
+        print qq{package FuseBead::From::PNG::Const;
+
+use strict;
+use warnings;
+
+BEGIN {
+    \$FuseBead::From::PNG::Const::VERSION = 'change me';
+}
+
+require Exporter;
+our \@ISA = qw(Exporter);
+our \@EXPORT_OK = qw(
+    BEAD_DIAMETER
+    MILLIMETER_TO_INCH
+    METRIC_SUFFIX
+    IMPERIAL_SUFFIX
+
+    BEAD_COLORS
+$exports
+);
+
+our %EXPORT_TAGS = ('all' => \\\@EXPORT_OK);
+
+# Bead Dimensions Info
+use constant {
+    BEAD_DIAMETER        => 5, # in millimeters
+    MILLIMETER_TO_INCH   => 0.0393701,   # 1mm == 0.0393701 in.
+    MILLIMETER_TO_PIXEL  => 3.779527559, # 1mm == 3.779527559 pixels
+    METRIC_SUFFIX        => "mm",
+    IMPERIAL_SUFFIX      => "in.",
+};
+
+# List of basic colors
+use constant BEAD_COLORS => qw(
+$color_list
+);
+
+# Color Info
+use constant {
+$color_const
+};
+
+=pod
+
+=head1 NAME
+
+FuseBead::From::PNG::Const - FuseBead::From::PNG related constants, mainly bead colors
+
+=head1 SYNOPSIS
+
+  # Get specific constants
+  use FuseBead::From::PNG::Const qw/BLACK_HEX_COLOR
+                                    WHITE_HEX_COLOR/;
+
+  # Get all constants
+  use Image::PNG::Const ':all';
+
+=head1 DESCRIPTION
+
+Constants used in L<FuseBead::From::PNG>
+
+=head1 CONSTANTS
+
+=over
+
+=item BEAD_COLORS
+
+    List of colors that have constant definitions in this file.
+
+=item (COLOR)_NAME
+
+    The name of a color.
+
+=item (COLOR)_HEX_COLOR
+
+    The rgb hex value for a color
+
+=item (COLOR)_RGB_COLOR_RED
+
+    The red number part of a rgb value for a color
+
+=item (COLOR)_RGB_COLOR_GREEN
+
+    The green number part of a rgb value for a color
+
+=item (COLOR)_RGB_COLOR_BLUE
+
+    The blue number part of a rgb value for a color
+
+=back
+
+=head1 AUTHOR
+
+    Travis Chase
+    CPAN ID: GAUDEON
+    gaudeon\@cpan.org
+    https://github.com/gaudeon/FuseBead-From-Png
+
+=head1 COPYRIGHT
+
+This program is free software licensed under the...
+
+    The MIT License
+
+The full text of the license can be found in the
+LICENSE file included with this module.
+
+=head1 SEE ALSO
+
+perl(1).
+
+=cut
+
+1;
+};
+    }
+    else {
+        print "\n\n-- Exports\n";
+        print $exports;
+        print "-- Bead Colors\n";
+        print $color_list;
+        print "\n\n-- Color Const\n";
+        print $color_const;
+    }
+}
+
+sub usage {
+    pod2usage({ -verbose => 1 });
+}
+
+=pod
+
+=head1 NAME
+
+generate_perler_const.pl
+
+=head1 DESCRIPTION
+
+a convenience script to generate the perler color constant perl module
+
+=head1 SYNOPSIS
+
+generate_perler_const.pl [--help|-h] [--pm]
+
+=head1 OPTIONS
+
+=over
+
+pm - generate the full perl module and not just the constant lists
+
+help | h - this help file
+
+=back
+
+=head1 AUTHOR
+
+    Travis Chase
+    CPAN ID: GAUDEON
+    gaudeon\@cpan.org
+    https://github.com/gaudeon/FuseBead-From-Png
+
+=cut
 
 __DATA__
 White   P01 241 241 241
@@ -97,3 +298,4 @@ Blueberry Cream P93 130 151 217
 Cranapple   P96 128 50  69
 Prickly Pear    P97 189 218 1
 Sand    P98 228 182 144
+Clear  P00  216 210 206

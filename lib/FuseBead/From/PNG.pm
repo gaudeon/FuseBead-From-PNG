@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    $FuseBead::From::PNG::VERSION = '0.02';
+    $FuseBead::From::PNG::VERSION = '0.03';
 }
 
 use Image::PNG::Libpng qw(:all);
