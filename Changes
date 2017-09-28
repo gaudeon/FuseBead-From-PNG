@@ -1,8 +1,7 @@
 Revision history for Perl module FuseBead::From::PNG
 
 0.03 Sept 27, 2017
-    - Encorporated color additions from DizzyDogg
-    - Improved generate color const helper script to be even more helpful in generating the color const module
+    - Incorporated color additions from DizzyDogg
 
 0.02 May 8, 2016
     - Added Turquoise and Clear colors from Hama beads
