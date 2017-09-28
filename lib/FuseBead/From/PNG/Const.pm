@@ -16,7 +16,6 @@ our @EXPORT_OK = qw(
     IMPERIAL_SUFFIX
 
     BEAD_COLORS
-
     BLACK_NAME
     BLACK_HEX_COLOR
     BLACK_RGB_COLOR_RED
@@ -65,12 +64,6 @@ our @EXPORT_OK = qw(
     CHEDDER_RGB_COLOR_GREEN
     CHEDDER_RGB_COLOR_BLUE
 
-    CLEAR_NAME
-    CLEAR_HEX_COLOR
-    CLEAR_RGB_COLOR_RED
-    CLEAR_RGB_COLOR_GREEN
-    CLEAR_RGB_COLOR_BLUE
-
     CRANAPPLE_NAME
     CRANAPPLE_HEX_COLOR
     CRANAPPLE_RGB_COLOR_RED
@@ -107,6 +100,12 @@ our @EXPORT_OK = qw(
     DARK_GREY_RGB_COLOR_GREEN
     DARK_GREY_RGB_COLOR_BLUE
 
+    EVERGREEN_NAME
+    EVERGREEN_HEX_COLOR
+    EVERGREEN_RGB_COLOR_RED
+    EVERGREEN_RGB_COLOR_GREEN
+    EVERGREEN_RGB_COLOR_BLUE
+
     GLOW_GREEN_NAME
     GLOW_GREEN_HEX_COLOR
     GLOW_GREEN_RGB_COLOR_RED
@@ -137,6 +136,12 @@ our @EXPORT_OK = qw(
     KIWI_LIME_RGB_COLOR_GREEN
     KIWI_LIME_RGB_COLOR_BLUE
 
+    LAVENDER_NAME
+    LAVENDER_HEX_COLOR
+    LAVENDER_RGB_COLOR_RED
+    LAVENDER_RGB_COLOR_GREEN
+    LAVENDER_RGB_COLOR_BLUE
+
     LIGHT_BLUE_NAME
     LIGHT_BLUE_HEX_COLOR
     LIGHT_BLUE_RGB_COLOR_RED
@@ -154,6 +159,12 @@ our @EXPORT_OK = qw(
     LIGHT_GREEN_RGB_COLOR_RED
     LIGHT_GREEN_RGB_COLOR_GREEN
     LIGHT_GREEN_RGB_COLOR_BLUE
+
+    LIGHT_GREY_NAME
+    LIGHT_GREY_HEX_COLOR
+    LIGHT_GREY_RGB_COLOR_RED
+    LIGHT_GREY_RGB_COLOR_GREEN
+    LIGHT_GREY_RGB_COLOR_BLUE
 
     LIGHT_PINK_NAME
     LIGHT_PINK_HEX_COLOR
@@ -375,21 +386,23 @@ use constant BEAD_COLORS => qw(
     BUBBLEGUM
     BUTTERSCOTCH
     CHEDDER
-    CLEAR
     CRANAPPLE
     CREAM
     CYAN
     DARK_BLUE
     DARK_GREEN
     DARK_GREY
+    EVERGREEN
     GLOW_GREEN
     GOLD
     GREY
     HOT_CORAL
     KIWI_LIME
+    LAVENDER
     LIGHT_BLUE
     LIGHT_BROWN
     LIGHT_GREEN
+    LIGHT_GREY
     LIGHT_PINK
     MAGENTA
     NEON_GREEN
@@ -475,12 +488,6 @@ use constant {
     CHEDDER_RGB_COLOR_GREEN => 170,
     CHEDDER_RGB_COLOR_BLUE => 12,
 
-    CLEAR_NAME => 'Clear',
-    CLEAR_HEX_COLOR => 'D8D2CE',
-    CLEAR_RGB_COLOR_RED => 216,
-    CLEAR_RGB_COLOR_GREEN => 210,
-    CLEAR_RGB_COLOR_BLUE => 206,
-
     CRANAPPLE_NAME => 'Cranapple',
     CRANAPPLE_HEX_COLOR => '803245',
     CRANAPPLE_RGB_COLOR_RED => 128,
@@ -517,6 +524,12 @@ use constant {
     DARK_GREY_RGB_COLOR_GREEN => 81,
     DARK_GREY_RGB_COLOR_BLUE => 86,
 
+    EVERGREEN_NAME => 'Evergreen',
+    EVERGREEN_HEX_COLOR => '355343',
+    EVERGREEN_RGB_COLOR_RED => 53,
+    EVERGREEN_RGB_COLOR_GREEN => 83,
+    EVERGREEN_RGB_COLOR_BLUE => 67,
+
     GLOW_GREEN_NAME => 'Glow Green',
     GLOW_GREEN_HEX_COLOR => 'BEC696',
     GLOW_GREEN_RGB_COLOR_RED => 190,
@@ -547,6 +560,12 @@ use constant {
     KIWI_LIME_RGB_COLOR_GREEN => 190,
     KIWI_LIME_RGB_COLOR_BLUE => 19,
 
+    LAVENDER_NAME => 'Lavender',
+    LAVENDER_HEX_COLOR => 'AD98D4',
+    LAVENDER_RGB_COLOR_RED => 173,
+    LAVENDER_RGB_COLOR_GREEN => 152,
+    LAVENDER_RGB_COLOR_BLUE => 212,
+
     LIGHT_BLUE_NAME => 'Light Blue',
     LIGHT_BLUE_HEX_COLOR => '3370C0',
     LIGHT_BLUE_RGB_COLOR_RED => 51,
@@ -564,6 +583,12 @@ use constant {
     LIGHT_GREEN_RGB_COLOR_RED => 86,
     LIGHT_GREEN_RGB_COLOR_GREEN => 186,
     LIGHT_GREEN_RGB_COLOR_BLUE => 159,
+
+    LIGHT_GREY_NAME => 'Light Grey',
+    LIGHT_GREY_HEX_COLOR => 'B1B5B2',
+    LIGHT_GREY_RGB_COLOR_RED => 177,
+    LIGHT_GREY_RGB_COLOR_GREEN => 181,
+    LIGHT_GREY_RGB_COLOR_BLUE => 178,
 
     LIGHT_PINK_NAME => 'Light Pink',
     LIGHT_PINK_HEX_COLOR => 'F6B3DD',
@@ -746,8 +771,8 @@ use constant {
     TOOTHPASTE_RGB_COLOR_BLUE => 212,
 
     TURQUOISE_NAME => 'Turquoise',
-    TURQUOISE_HEX_COLOR => '6797AE',
-    TURQUOISE_RGB_COLOR_RED => 103,
+    TURQUOISE_HEX_COLOR => 'C197AE',
+    TURQUOISE_RGB_COLOR_RED => 193,
     TURQUOISE_RGB_COLOR_GREEN => 151,
     TURQUOISE_RGB_COLOR_BLUE => 174,
 
@@ -763,76 +788,3 @@ use constant {
     YELLOW_RGB_COLOR_GREEN => 216,
     YELLOW_RGB_COLOR_BLUE => 0,
 };
-
-=pod
-
-=head1 NAME
-
-FuseBead::From::PNG::Const - FuseBead::From::PNG related constants, mainly bead colors
-
-=head1 SYNOPSIS
-
-  # Get specific constants
-  use FuseBead::From::PNG::Const qw/BLACK_HEX_COLOR
-                                    WHITE_HEX_COLOR/;
-
-  # Get all constants
-  use Image::PNG::Const ':all';
-
-=head1 DESCRIPTION
-
-Constants used in L<FuseBead::From::PNG>
-
-=head1 CONSTANTS
-
-=over
-
-=item BEAD_COLORS
-
-    List of colors that have constant definitions in this file.
-
-=item (COLOR)_NAME
-
-    The name of a color.
-
-=item (COLOR)_HEX_COLOR
-
-    The rgb hex value for a color
-
-=item (COLOR)_RGB_COLOR_RED
-
-    The red number part of a rgb value for a color
-
-=item (COLOR)_RGB_COLOR_GREEN
-
-    The green number part of a rgb value for a color
-
-=item (COLOR)_RGB_COLOR_BLUE
-
-    The blue number part of a rgb value for a color
-
-=back
-
-=head1 AUTHOR
-
-    Travis Chase
-    CPAN ID: GAUDEON
-    gaudeon@cpan.org
-    https://github.com/gaudeon/FuseBead-From-Png
-
-=head1 COPYRIGHT
-
-This program is free software licensed under the...
-
-    The MIT License
-
-The full text of the license can be found in the
-LICENSE file included with this module.
-
-=head1 SEE ALSO
-
-perl(1).
-
-=cut
-
-1;
